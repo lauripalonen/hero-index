@@ -1,6 +1,6 @@
 # Home assignment
 
-For this assignment we have created a GraphQL API and a simple React application that queries infromation from that API. It is your job to finalize this application, either from frontend or backend side. More information of these tracks down below in Tracks section.
+For this assignment we have created a GraphQL API and a simple React application that queries information from that API. It is your job to finalize this application, either from frontend or backend side. More information of these tracks down below in Tracks section.
 
 The application itself is built to be an "Index" of Heroes. These Heroes works as mercenaries and can be summoned to help fight supervillains. In the Frontend Track your task is to built visuals for the Index. In the Backend track your job is to secure access to Heroes Vault, where they keep their treasures.
 
