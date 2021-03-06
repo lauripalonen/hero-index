@@ -3,8 +3,14 @@ import { Hero } from './entities/hero';
 import { Vault } from './entities/vault';
 import { TElement } from './types/element';
 
+const roles = {
+	treasurer: { title: 'TREASURER', id: 1 },
+	hero: { title: 'FRIENDLY-NEIGHBORHOOD-HERO', id: 2 }
+}
+
 const PORCU: DeepPartial<Hero> = {
 	name: 'Porcu',
+	roles: [roles.treasurer, roles.hero],
 	imgUrl: 'http://localhost:8080/public/porcu.png',
 	description: `
     Using his wit and engineering skills, Porcu has created an awesome suit which shoots Plasma lazers and uses immense strength to overcome his opponents. He is pretty slow though and his suit has weaknesses.
@@ -45,6 +51,7 @@ const PORCU: DeepPartial<Hero> = {
 
 const LISA: DeepPartial<Hero> = {
 	name: 'Lisa McAllister',
+	roles: [roles.hero],
 	imgUrl: 'http://localhost:8080/public/lisa.png',
 	description: `
     With her beloved revolver called React and super-human precision, Lisa can shoot a target from a mile away. She also carries a stack of dynamites and a lasso.
@@ -89,6 +96,7 @@ const LISA: DeepPartial<Hero> = {
 
 const GIDEON: DeepPartial<Hero> = {
 	name: 'Gideon',
+	roles: [roles.hero],
 	imgUrl: 'http://localhost:8080/public/gideon.png',
 	description: `
     Laptop that he carries with him amplifies and channels his already enormous powers. Even though he might look soft and calm, there is raging power swirling inside him. One should not get in his way.
@@ -133,8 +141,8 @@ export const seedDatabase = async () => {
 	const heroes = heroRepository.create([PORCU, LISA, GIDEON]);
 	await heroRepository.save(heroes);
 
-	const vault = vaultRepository.create({ 
-		treasures: 'This should be behind authentication.  ✧･ﾟ: *✧･ﾟ:* Loads of gold.　 *:･ﾟ✧*:･ﾟ✧' 
+	const vault = vaultRepository.create({
+		treasures: 'This should be behind authentication.  ✧･ﾟ: *✧･ﾟ:* Loads of gold.　 *:･ﾟ✧*:･ﾟ✧'
 	});
 	await vaultRepository.save(vault);
 };
