@@ -1,3 +1,4 @@
+require('dotenv').config({path: './src/server/.env'})
 import 'reflect-metadata';
 import { useContainer, ConnectionOptions, createConnection } from 'typeorm';
 import { Container } from 'typedi';
@@ -45,19 +46,25 @@ const bootstrapApp = async () => {
 
 		const server = new ApolloServer({
 			schema,
-			// context: ({ req }) => {
-			// 	const auth = req.headers.authorization
-			// 	const decodedToken = jwt.verify(auth, 'this_secret_should_come_from_hidden_env_files_and_never_committed_to_repo')
-			// 	const currentHero = connection.getRepository(Hero).findOne(1)
-			// 	//how to implement currentHero as Await?
-			// 	//how to force decodedId as decodedToken.userId and that it is a string or num?
+			context: async ({ req }) => {
+				const context = { req, roles: [] }
+				const token = req.headers.authorization
 
-			// 	const context = {
-			// 		req,
-			// 		jwt: currentHero
-			// 	};
-			// 	return context
-			// },
+				if (!token) {
+					return context
+				}
+
+				const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+
+				const heroRepository = connection.getRepository(Hero)
+				const hero = await heroRepository.findOne((<any>decodedToken).userId)
+
+				if (!hero) {
+					return context
+				}
+
+				return { ...context, roles: hero.roles }
+			},
 		});
 
 		const { url } = await server.listen(4000);
