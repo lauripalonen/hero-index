@@ -1,7 +1,28 @@
-import { DeepPartial, getRepository } from 'typeorm';
+import * as jwt from 'jsonwebtoken';
+import { Connection, DeepPartial, getRepository } from 'typeorm';
+import { Request } from 'express'
 import { Hero } from './entities/hero';
 import { Vault } from './entities/vault';
 import { TElement } from './types/element';
+
+export const parseContext = async (req: Request, connection: Connection) => {
+	const context = { roles: [] };
+	const token = req.headers.authorization;
+
+	if (!token) {
+		return context;
+	};
+
+	const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+	const heroRepository = connection.getRepository(Hero);
+	const hero = await heroRepository.findOne((<any>decodedToken).userId)
+
+	if (!hero) {
+		return context
+	}
+
+	return { roles: hero.roles }
+}
 
 const roles = {
 	treasurer: { title: 'TREASURER', id: 1 },

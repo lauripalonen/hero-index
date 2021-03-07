@@ -1,11 +1,10 @@
-require('dotenv').config({path: './src/server/.env'})
+require('dotenv').config({ path: './src/server/.env' })
 import 'reflect-metadata';
 import { useContainer, ConnectionOptions, createConnection } from 'typeorm';
 import { Container } from 'typedi';
 import path from 'path';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer} from 'apollo-server';
 import * as TypeGraphQl from 'type-graphql';
-import * as jwt from 'jsonwebtoken';
 
 import { Hero } from './entities/hero';
 import { Skill } from './entities/skill';
@@ -19,7 +18,7 @@ import { AuthTokenResolver } from './resolvers/auth-resolver';
 
 import { AuthService } from './services/auth-service'
 
-import { seedDatabase } from './helpers';
+import { seedDatabase, parseContext } from './helpers';
 
 useContainer(Container);
 
@@ -46,25 +45,7 @@ const bootstrapApp = async () => {
 
 		const server = new ApolloServer({
 			schema,
-			context: async ({ req }) => {
-				const context = { req, roles: [] }
-				const token = req.headers.authorization
-
-				if (!token) {
-					return context
-				}
-
-				const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-
-				const heroRepository = connection.getRepository(Hero)
-				const hero = await heroRepository.findOne((<any>decodedToken).userId)
-
-				if (!hero) {
-					return context
-				}
-
-				return { ...context, roles: hero.roles }
-			},
+			context: async ({ req }) => parseContext(req, connection)
 		});
 
 		const { url } = await server.listen(4000);
