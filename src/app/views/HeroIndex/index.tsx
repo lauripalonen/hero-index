@@ -7,7 +7,8 @@ import { TopBar } from '../../components/TopBar';
 import { Hero } from '../../components/Hero';
 import { Section } from '../../components/Section';
 import { Footer } from '../../components/Footer';
-import { HeroCard } from '../../components/HeroCard';
+import { ThumbnailCard } from '../../components/ThumbnailCard';
+import { HeroCard } from '../../components/HeroCard'
 
 const HEROES_QUERY = gql`
 	query {
@@ -36,10 +37,11 @@ const HEROES_QUERY = gql`
 	}
 `;
 
-interface IHeroIndexProps {}
+interface IHeroIndexProps { }
 
 const HeroCardContainer = styled.div`
 	display: flex;
+	flex-direction: row;
 	padding: 50px;
 	align-self: center;
 	max-width: 1150px;
@@ -47,13 +49,20 @@ const HeroCardContainer = styled.div`
 		margin-left: auto;
 		margin-right: auto;
 	}
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
 `;
+
+
 
 const handleLoading = () => <div>Loading...</div>;
 
 const handleError = (message: string) => <div>Error! {message}</div>;
 
 export const HeroIndex: React.FC<IHeroIndexProps> = () => {
+	const [heroDisplay, setHeroDisplay] = React.useState(<div></div>)
 	const { data, error, loading } = useQuery(HEROES_QUERY);
 
 	if (error) {
@@ -64,6 +73,13 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
 		return handleLoading();
 	}
 
+	const handleDisplayChange = (event: React.MouseEvent, name: string) => {
+		event.preventDefault();
+		const heroProps = data.heroes.find(hero => hero.name === name)
+
+		setHeroDisplay(heroProps ? <HeroCard {...heroProps} handleDisplayChange={handleDisplayChange} /> : <div></div>)
+	}
+
 	return (
 		<main>
 			<TopBar />
@@ -71,22 +87,16 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
 			<Section
 				heading={'Hunter Index'}
 				paragraph={`
-          Professor Hoax gave us this Hunter Index -tool 
-          so we can see how our heroes manage against evildoers. 
-          Unfortunately he forgot to implement their HeroCards. 
-          It's your job to finish his work before we can continue
-          on our journey together!
+          Hunter Index -tool by Professor Hoax. Click a hero to learn more!
         `}
 			/>
-
-			{/** Improve this section. Data provided is defined on top in GraphQL query. You can decide what you use and what you dont't.*/}
 			<HeroCardContainer>
 				{data.heroes.map((hero) => (
-					<HeroCard key={hero.name} {...hero} />
+					<ThumbnailCard key={hero.name} {...hero} handleDisplayChange={handleDisplayChange} />
 				))}
 			</HeroCardContainer>
-
 			<Footer />
+			{heroDisplay}
 		</main>
 	);
 };
