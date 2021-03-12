@@ -1,4 +1,24 @@
-# Home assignment
+# Assignment for [Hoxhunt](https://github.com/hoxhunt)  
+
+Original author: [Axel Auvinen](https://github.com/axelauvinen).
+
+Additions to codebase are made following the assignment below.
+
+## Installation  
+
+Clone the project: `git clone git@github.com:lauripalonen/hero-index.git`  
+
+Install dependencies: `yarn`  
+
+Run backend in nodemon: `yarn dev:back`  
+
+Start frontend: `yarn start:front`  
+
+Backend assumes that a jwt secret is saved in a `.env`-file on the project root like so:  
+`JWT_SECRET=<YOUR_SECRET_HERE>`. Also please take care that the `.env` is in the `.gitignore`.
+
+
+## Assignment
 
 For this assignment we have created a GraphQL API and a simple React application that queries information from that API. It is your job to finalize this application, either from frontend or backend side. More information of these tracks down below in Tracks section.
 
