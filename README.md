@@ -14,8 +14,9 @@ Run backend in nodemon: `yarn dev:back`
 
 Start frontend: `yarn start:front`  
 
-Backend assumes that a jwt secret is saved in a `.env`-file on the project root like so:  
-`JWT_SECRET=<YOUR_SECRET_HERE>`. Also please take care that the `.env` is in the `.gitignore`.
+On backend it is assumed that a jwt secret is saved in `.env`-file on the project root like so: `JWT_SECRET=<YOUR_SECRET_HERE>`.  
+
+Also please take care that the `.env` is in the `.gitignore`!
 
 
 # Original assignment:
