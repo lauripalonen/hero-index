@@ -56,19 +56,20 @@ const AnimLogo = styled.img`
 `
 
 export const Hero = () => {
-  const [count, setCount] = React.useState(0)
-  const increment = () => setCount(count + 1)
-  return (
-    <Container>
-      {count >= 5
-        ?
-        <AnimLogo onClick={increment} src={'/public/summer_hunters_logo.svg'} />
-        :
-        <Logo onClick={increment} src="/public/summer_hunters_logo.svg" />
-      }
+	const [count, setCount] = React.useState(0)
+	const increment = () => setCount(count + 1)
+	const decrement = () => setCount(count - 1)
+	return (
+		<Container>
+			{count >= 5
+				?
+				<AnimLogo onClick={decrement} src={'/public/summer_hunters_logo.svg'} />
+				:
+				<Logo onClick={increment} src="/public/summer_hunters_logo.svg" />
+			}
 
-      <Image />
-    </Container>
-  )
+			<Image />
+		</Container>
+	)
 
 }
