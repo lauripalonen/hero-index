@@ -40,7 +40,7 @@ const LogoContainer = styled.div`
 
 const StyledFooter = styled.footer`
 	background: #001147;
-	min-height: 500px;
+	min-height: 250px;
 	> img {
 		padding-top: 100px;
 	}
