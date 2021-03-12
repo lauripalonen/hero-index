@@ -2,7 +2,7 @@
 
 Original author: [Axel Auvinen](https://github.com/axelauvinen).
 
-Additions to codebase are made following the assignment below.
+Additions to codebase were made by following the assignment guidelines below.
 
 ## Installation  
 
